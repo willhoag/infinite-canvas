@@ -57,6 +57,6 @@
     "build:node": "babel index.es6 > index.js",
     "build": "npm run build:node && run build:standalone",
     "prepublish": "npm test && npm run build:node",
-    "test": "standard index.es6 && browserify -t babelify --extension .es6 test.es6 | tape-run -b chrome | tap-spec"
+    "test": "standard index.es6 && browserify -t babelify --extension .es6 test.es6 | tape-run | tap-spec"
   }
 }
