@@ -37,7 +37,7 @@ infiniteCanvas.commitToBuffer() // and commit it to buffer
 let bufferCtx = infiniteCanvas.buffer.getContext('2d') // get buffer context
 bufferCtx = infiniteCanvas.bufferContext // or pull it from the instance
 
-// draw a triangle on the buffer
+// draw a circle on the buffer
 bufferCtx.beginPath()
 bufferCtx.arc(100, 100, 50, 0, 2 * Math.PI)
 bufferCtx.stroke()
