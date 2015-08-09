@@ -12,7 +12,6 @@
   },
   "dependencies": {
     "clear-canvas": "^1.0.3",
-    "infinite-canvas": "^0.0.0",
     "draw-to-canvas": "^0.0.0",
     "gl-vec2": "^1.0.0",
     "resize-canvas": "^0.0.0"
