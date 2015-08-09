@@ -1,0 +1,35 @@
+{
+  "name": "infinite-canvas",
+  "version": "0.0.0",
+  "authors": [
+    "willhoag <will@willhoag.com>"
+  ],
+  "description": "an infinite html5 canvas",
+  "main": "dist/infinite-canvas.js",
+  "moduleType": [
+    "amd",
+    "es6",
+    "globals",
+    "node"
+  ],
+  "keywords": [
+    "canvas",
+    "context",
+    "html5",
+    "resize",
+    "scale",
+    "infinite",
+    "infinity",
+    "move",
+    "drag"
+  ],
+  "license": "ISC",
+  "homepage": "git://github.com/willhoag/infinite-canvas.git",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

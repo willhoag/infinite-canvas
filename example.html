@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>test</title>
+    <style media="screen">
+      #canvas {
+        border: 1px solid red;
+      }
+      #canvas:hover {
+        cursor: move;
+        cursor: -webkit-grab; cursor: -moz-grab;
+      }
+      #canvas:active {
+        cursor: -webkit-grabbing; cursor: -moz-grabbing;
+      }
+    </style>
+  </head>
+  <body>
+    <p style="color: red;">
+      edge of canvas
+    </p>
+    <canvas id="canvas" width="300" height="300"></canvas>
+  </body>
+  <script src="dist/infinite-canvas.js" charset="utf-8"></script>
+  <script type="text/javascript">
+    var lastX = 0, lastY = 0;
+    var canvas = document.querySelector('#canvas')
+    var ctx = canvas.getContext('2d')
+    ctx.beginPath();
+    ctx.arc(150,150,50,0,2*Math.PI);
+    ctx.stroke();
+    var ic = new InfiniteCanvas(canvas)
+    var mouseup = function () {
+      window.removeEventListener('mousemove', mousemove)
+      window.removeEventListener('mouseup', mouseup)
+    }
+    var mousemove = function (ev) {
+      var diff = [ev.x - lastX, ev.y - lastY]
+      ic.move(diff)
+      lastX = ev.x
+      lastY = ev.y
+    }
+    canvas.addEventListener('mousedown', function (ev) {
+      lastX = ev.x
+      lastY = ev.y
+      window.addEventListener('mousemove', mousemove)
+      window.addEventListener('mouseup', mouseup)
+    })
+  </script>
+</html>

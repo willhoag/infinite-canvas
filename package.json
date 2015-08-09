@@ -1,0 +1,63 @@
+{
+  "name": "infinite-canvas",
+  "description": "an infinite html5 canvas",
+  "version": "0.0.0",
+  "author": {
+    "name": "Will Hoag",
+    "email": "dev@willhoag.com",
+    "url": "www.willhoag.com"
+  },
+  "bugs": {
+    "url": "https://github.com/willhoag/infinite-canvas/issues"
+  },
+  "dependencies": {
+    "clear-canvas": "^1.0.3",
+    "infinite-canvas": "^0.0.0",
+    "draw-to-canvas": "^0.0.0",
+    "gl-vec2": "^1.0.0",
+    "resize-canvas": "^0.0.0"
+  },
+  "devDependencies": {
+    "babel": "^5.8.21",
+    "babelify": "^6.1.3",
+    "browserify": "^11.0.0",
+    "create-canvas": "^1.0.1",
+    "phantomjs": "^1.9.17",
+    "standard": "^4.5.3",
+    "tap-spec": "^4.0.2",
+    "tape": "^4.0.1",
+    "tape-run": "^1.0.0",
+    "uglifyjs": "^2.4.10"
+  },
+  "homepage": "git://github.com/willhoag/infinite-canvas.git",
+  "keywords": [
+    "canvas",
+    "context",
+    "html5",
+    "resize",
+    "scale",
+    "infinite",
+    "infinity",
+    "move",
+    "drag"
+  ],
+  "license": "ISC",
+  "main": "index.js",
+  "maintainers": [
+    {
+      "name": "devhoag",
+      "email": "dev@willhoag.com"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/willhoag/infinite-canvas.git"
+  },
+  "scripts": {
+    "build:standalone": "browserify -t babelify --standalone InfiniteCanvas index.es6 --extension .es6  | tee ./dist/infinite-canvas.js | uglifyjs > ./dist/infinite-canvas.min.js",
+    "build:node": "babel index.es6 > index.js",
+    "build": "npm run build:node && run build:standalone",
+    "prepublish": "npm test && npm run build:node",
+    "test": "standard index.es6 && browserify -t babelify --extension .es6 test.es6 | tape-run -b chrome | tap-spec"
+  }
+}
