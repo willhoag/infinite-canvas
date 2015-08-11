@@ -1,7 +1,7 @@
 {
   "name": "infinite-canvas",
   "description": "an infinite html5 canvas",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "author": {
     "name": "Will Hoag",
     "email": "dev@willhoag.com",
@@ -12,9 +12,10 @@
   },
   "dependencies": {
     "clear-canvas": "^1.0.3",
-    "draw-to-canvas": "^0.0.0",
+    "copy-canvas": "~0.0.1",
+    "draw-to-canvas": "~0.0.0",
     "gl-vec2": "^1.0.0",
-    "resize-canvas": "^0.0.0"
+    "resize-canvas": "~0.0.0"
   },
   "devDependencies": {
     "babel": "^5.8.21",
