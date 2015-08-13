@@ -20,67 +20,76 @@ function getResizeFrom (canvas, originDiff) {
   return resizeFrom
 }
 
-export default class InfiniteCanvas {
+export default function InfiniteCanvas (canvas) {
 
-  constructor (canvas) {
+  let canvasContext = canvas.getContext('2d')
+  let buffer = copyCanvas(canvas)
+  let bufferContext = buffer.getContext('2d')
 
-    // optional new keyword
-    if (!(this instanceof InfiniteCanvas)) {return new InfiniteCanvas(canvas)}
-
-    // instantiate
-    this.canvas = canvas
-    this.canvasContext = canvas.getContext('2d')
-    this.buffer = copyCanvas(canvas)
-    this.bufferContext = this.buffer.getContext('2d')
-    this.origin = [0, 0]
-    this._originMax = [0, 0]
-    this._originMin = [0, 0]
-    this._originDraw = [0, 0]
-  }
+  // private properties
+  let origin = [0, 0]
+  let originMax = [0, 0]
+  let originMin = [0, 0]
+  let originDraw = [0, 0]
 
   // set the absolute [x, y] origin position of the buffer canvas on
   // the main canvas to pan around
-  setOrigin (newOrigin) {
+  function setOrigin (newOrigin) {
 
     // update origins
-    let originDiff = subtract([], newOrigin, this.origin)
-    this.origin = newOrigin
-    this._originMax = max([], this.origin, this._originMax)
-    this._originMin = min([], this.origin, this._originMin)
+    let originDiff = subtract([], newOrigin, origin)
+    origin = newOrigin
+    originMax = max([], origin, originMax)
+    originMin = min([], origin, originMin)
 
     // get dimensions
-    let canvasDimensions = getDimensions(this.canvas)
-    let bufferDimensions = getDimensions(this.buffer)
+    let canvasDimensions = getDimensions(canvas)
+    let bufferDimensions = getDimensions(buffer)
     let maxDimensions = add([], canvasDimensions,
-      add([], this._originMax, abs(this._originMin)))
+      add([], originMax, abs(originMin)))
 
     // resize
     let maxDimensionsDiff = subtract([], maxDimensions, bufferDimensions)
-    this.buffer = resizeCanvas(this.buffer, maxDimensionsDiff,
-      getResizeFrom(this.buffer, originDiff))
+    resizeCanvas({
+      canvas: buffer,
+      diff: maxDimensionsDiff,
+      from: getResizeFrom(buffer, originDiff)
+    })
 
     // redraw
-    this._originDraw = min([], [0, 0], add([], this._originDraw, originDiff))
-    this.refresh()
+    originDraw = min([], [0, 0], add([], originDraw, originDiff))
+    refresh()
   }
 
   // pan with relative [x, y] values
-  move (originDiff) {
-    this.setOrigin(add([], this.origin, originDiff))
+  function move (originDiff) {
+    setOrigin(add([], origin, originDiff))
   }
 
   // copy whatever was drawn on the canvas to the buffer
-  commitToBuffer () {
-    drawToCanvas(this.canvas, this.bufferContext, this.origin)
+  function commitToBuffer () {
+    drawToCanvas(canvas, bufferContext, origin)
   }
 
   // redraw to the canvas from the buffer
-  refresh () {
+  function refresh () {
 
     // erase canvas
-    clearCanvas(this.canvasContext)
+    clearCanvas(canvasContext)
 
     // draw to canvas
-    drawToCanvas(this.buffer, this.canvasContext, this._originDraw)
+    drawToCanvas(buffer, canvasContext, originDraw)
   }
+
+  return Object.freeze({
+    canvas,
+    buffer,
+    canvasContext,
+    bufferContext,
+    getOrigin: () => origin,
+    setOrigin,
+    move,
+    commitToBuffer,
+    refresh
+  })
 }

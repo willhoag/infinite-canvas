@@ -31,15 +31,13 @@ function test (description, fn) {
 
 test('origin should accumulate', function (t) {
   iCanvas.move([-20, 40])
-  t.deepEqual(iCanvas.origin, [-20, 40])
+  t.deepEqual(iCanvas.getOrigin(), [-20, 40])
   iCanvas.move([10, 20])
-  t.deepEqual(iCanvas.origin, [-10, 60])
+  t.deepEqual(iCanvas.getOrigin(), [-10, 60])
   t.done()
 })
 
-test('iCanvas should resize be the correct size', function (t) {
-  t.equal(iCanvas.buffer.width, 200)
-  t.equal(iCanvas.buffer.height, 300)
+test('iCanvas should resize be the correct size with move', function (t) {
   iCanvas.move([20, 40])
   t.equal(iCanvas.buffer.width, 220)
   t.equal(iCanvas.buffer.height, 340)
@@ -52,28 +50,41 @@ test('iCanvas should resize be the correct size', function (t) {
   t.done()
 })
 
+test('iCanvas should resize be the correct size with setOrigin', function (t) {
+  iCanvas.setOrigin([20, 40])
+  t.equal(iCanvas.buffer.width, 220)
+  t.equal(iCanvas.buffer.height, 340)
+  iCanvas.setOrigin([10, 60])
+  t.equal(iCanvas.buffer.width, 220)
+  t.equal(iCanvas.buffer.height, 360)
+  iCanvas.setOrigin([-30, 60])
+  t.equal(iCanvas.buffer.width, 250)
+  t.equal(iCanvas.buffer.height, 360)
+  t.done()
+})
+
 test('should draw previous canvas in correct location moving down and right', function (t) {
 
-  drawTriangle(iCanvas.buffer.getContext('2d'), [0, 0])
+  drawTriangle(iCanvas.bufferContext, [0, 0])
   drawTriangle(compareCanvas.getContext('2d'), [10, 30])
 
   iCanvas.move([10, 30])
 
   t.deepEqual(
-    iCanvas.canvas.getContext('2d').getImageData(0, 0, 200, 300),
+    iCanvas.bufferContext.getImageData(0, 0, 200, 300),
     compareCanvas.getContext('2d').getImageData(0, 0, 200, 300))
 
   t.end()
 })
 
 test('should draw previous canvas in correct location moving up and left', function (t) {
-  drawTriangle(iCanvas.buffer.getContext('2d'), [40, 40])
+  drawTriangle(iCanvas.bufferContext, [40, 40])
   drawTriangle(compareCanvas.getContext('2d'), [20, 0])
 
   iCanvas.move([-20, -40])
 
   t.deepEqual(
-    iCanvas.canvas.getContext('2d').getImageData(20, 0, 28, 8).data,
+    iCanvas.bufferContext.getImageData(20, 0, 28, 8).data,
     compareCanvas.getContext('2d').getImageData(20, 0, 28, 8).data)
 
   t.end()

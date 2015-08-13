@@ -6,7 +6,7 @@ an infinite html5 canvas
 [![npm version](https://badge.fury.io/js/infinite-canvas.svg)](http://badge.fury.io/js/infinite-canvas)
 
 ## Description
-Provides an interface to pan an html5 canvas vertically and horizontally infinitely. This works by creating a infinitely growing buffer canvas that adjusts it's size and position when moving the origin with `.move(diff)`. Essentially, the wrapped canvas becomes a window that you move around the buffer canvas. When moved beyond the dimensions of the buffer canvas, the buffer is resized and the image data is repositioned to compensate.
+Provides an interface to pan an html5 canvas vertically and horizontally infinitely. This works by creating a infinitely growing buffer canvas that adjusts it's size and position when moving the origin relatively with `.move([x, y])` or absolutely with `.setOrigin([x, y])`. Essentially, the wrapped canvas becomes a window that you move around the buffer canvas. When moved beyond the dimensions of the buffer canvas, the buffer is resized and the image data is repositioned to compensate.
 
 ## Installation
 
@@ -21,6 +21,7 @@ npm install infinite-canvas --save
 ```js
 // require module
 import InfiniteCanvas from 'infinite-canvas'
+
 let canvas = document.querySelector('#canvas')
 let infiniteCanvas = new InfiniteCanvas(canvas) // make instance
 let ctx = canvas.getContext('2d') // get canvas context
@@ -45,6 +46,7 @@ infiniteCanvas.refresh() // and update the canvas
 
 infiniteCanvas.move([10, 20]) // move up 10 and right 20
 infiniteCanvas.getOrigin() // [-10, 60] // check updated origin
+
 ```
 
 ## API
